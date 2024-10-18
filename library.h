@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main();
+typedef struct n{
+    int id;
+    truct n **links;
+} Node;
+
 
 #endif
