@@ -3,13 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct n{
-    int id;
-    truct n **links;
-} Node;
-
-int main();
+#include <string.h>
 
 typedef enum{
     FILE_NOT_FOUND = 1,
@@ -24,6 +18,9 @@ typedef struct n{
     struct n **links;
 } Node;
 
-Error file_open(FILE *file, char *path, char *mode);
+int main(int argc, char* argv[]);
+
+int str_in_str(char* str1, char* str2);
+int display_nods_nbr(FILE *file);
 
 #endif
