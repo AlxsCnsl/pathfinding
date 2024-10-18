@@ -1,9 +1,9 @@
 #include "library.h"
 
 
-int main()
+int main(int argc, char* argv[])
 {
-    printf("Quiche !\n");
-    printf("Lorraine");
-    printf("qui ce mange");
+    FILE* file = fopen("test/test2.txt", "r");
+    printf("ça passe\n");
+    int b = display_nods_nbr(file);
 }
