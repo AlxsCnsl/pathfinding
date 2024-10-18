@@ -21,6 +21,7 @@ typedef struct n{
 int main(int argc, char* argv[]);
 
 int str_in_str(char* str1, char* str2);
-int display_nods_nbr(FILE *file);
+void display_nods_nbr(FILE *file);
+void display_links_nbr(FILE *file);
 
 #endif
