@@ -4,5 +4,5 @@
 int main()
 {
     printf("Quiche !\n");
-    printf("Loraine");
+    printf("Lorraine");
 }
