@@ -4,6 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct n{
+    int id;
+    truct n **links;
+} Node;
+
 int main();
 
 typedef enum{

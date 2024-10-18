@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #include "library.h"
 
 Error file_open(FILE *file, char *path, char *mode)
@@ -13,3 +14,6 @@ Error file_open(FILE *file, char *path, char *mode)
     printf("Ouverture Réussie\n");
     return 0;
 }
+=======
+#include "library.h"
+>>>>>>> Stashed changes
