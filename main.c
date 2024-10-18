@@ -4,6 +4,6 @@
 int main()
 {
     printf("Quiche !\n");
-    printf("Bretonne");
+    printf("Lorraine");
     printf("qui ce mange");
 }
