@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int main();
+
 typedef enum{
     FILE_NOT_FOUND = 1,
     NO_START_NODE = 2,
@@ -14,7 +16,7 @@ typedef enum{
 
 typedef struct n{
     int id;
-    truct n **links;
+    struct n **links;
 } Node;
 
 Error file_open(FILE *file, char *path, char *mode);
