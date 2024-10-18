@@ -17,6 +17,6 @@ typedef struct n{
     truct n **links;
 } Node;
 
-
+Error file_open(FILE *file, char *path, char *mode);
 
 #endif
