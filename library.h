@@ -4,5 +4,13 @@
 #include <stdlib.h>
 
 int main();
+<<<<<<< Updated upstream
+=======
+
+
+
+
+
+>>>>>>> Stashed changes
 
 #endif
