@@ -1,15 +1,28 @@
 #include "library.h"
 
-Error file_open(FILE *file, char *path, char *mode)
-{
-    file = fopen(path, mode);
+/******************************
+*  Définitions des fonctions  *
+******************************/
 
-    if (file == NULL)
+void display_links_nbr(FILE *file, int nodes_nbr)
+{   
+    char buffer[256];
+    int links_nbr = 0, i = 0;
+    /*for (i = 0 ; i < nodes_nbr + 4 ; i++)
     {
-        printf("Erreur : FILE_NOT_FOUND\n");
-        return FILE_NOT_FOUND;
+        fgets(buffer, sizeof(buffer), file);
+    }*/
+
+    while (strcmp(buffer, "#links\r\n"))
+    {
+        fgets(buffer, sizeof(buffer), file);
+    }
+    
+    while (fgets(buffer, sizeof(buffer), file) != NULL)
+    {
+        links_nbr++;
+        printf("%s", buffer);
     }
 
-    printf("Ouverture Réussie\n");
-    return 0;
+    printf("Nombre de liens : %d\n", links_nbr);
 }
