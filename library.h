@@ -18,10 +18,13 @@ typedef struct n{
     struct n **links;
 } Node;
 
+
 int main(int argc, char* argv[]);
 
 int str_debuts_str(char* str1, char* str2);
 void display_nods_nbr(FILE *file);
 void display_links_nbr(FILE *file);
+void display_nod_star(FILE* file);
+void display_nod_end(FILE* file);
 
 #endif
