@@ -1,10 +1,10 @@
-# Variables
+
 CC = gcc
 CFLAGS = -Wall -g
-SRCS = $(wildcard *.c)
+SRCS = $(wildcard *.c) #pour tout les file.c du projet
 TARGET = pathfinding
 
-# Règle par défaut
+
 all: 
 	$(CC) $(CFLAGS) $(SRCS) -o $(TARGET)
 

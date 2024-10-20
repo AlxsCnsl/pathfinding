@@ -1,0 +1,73 @@
+//les resultats attendue
+======
+test1.txt
+    nombre de noeud(s): 2
+    Nombre de lien(s): 1
+    start: 1
+    end: 2
+    pathfinding:
+    1 2
+
+======
+test2.txt
+    nombre de noeud(s): 6
+    Nombre de lien(s): 5
+    start: 2
+    end: 6
+    pathfinding:
+    2 1 3 4 5 6
+
+======
+test3.txt
+    nombre de noeud(s): 9
+    Nombre de lien(s): 10
+    start: 1
+    end: 8
+    pathfinding:
+    1 2 4 6 7 8
+    ou
+    1 3 4 6 7 8
+
+======
+test4.txt
+    NO_START_NODE : pas de nœud de début dans le fichier
+
+======
+test5.txt
+    NO_END_NODE : pas de nœud de fin dans le fichier
+
+======
+test6.txt
+    BAD_FILE_FORMAT : pas de section nodes ou links dans le fichier
+
+======
+test7.txt
+    BAD_FILE_FORMAT : pas de section nodes ou links dans le fichier
+
+======
+test8.txt
+    NO_VALID_PATH : Le nœud de départ et de fin ne sont pas connecté
+
+======
+test9.txt
+    nombre de noeud(s): 12
+    Nombre de lien(s): 14
+    start: 4
+    end: 12
+    pathfinding:
+    4 5 6 8 11 12
+
+======
+test10.txt
+    nombre de noeud(s): 12
+    Nombre de lien(s): 15
+    start: 4
+    end: 12
+    pathfinding:
+    4 12
+
+======
+other files
+    FILE_NOT_FOUND : impossible d’ouvrir le fichier
+
+
