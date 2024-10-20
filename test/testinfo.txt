@@ -29,11 +29,45 @@ test3.txt
     1 3 4 6 7 8
 
 ======
-test X:
+test4.txt
+    NO_START_NODE : pas de nœud de début dans le fichier
 
 ======
-test Y:
+test5.txt
+    NO_END_NODE : pas de nœud de fin dans le fichier
 
 ======
-test Z:
+test6.txt
+    BAD_FILE_FORMAT : pas de section nodes ou links dans le fichier
+
+======
+test7.txt
+    BAD_FILE_FORMAT : pas de section nodes ou links dans le fichier
+
+======
+test8.txt
+    NO_VALID_PATH : Le nœud de départ et de fin ne sont pas connecté
+
+======
+test9.txt
+    nombre de noeud(s): 12
+    Nombre de lien(s): 14
+    start: 4
+    end: 12
+    pathfinding:
+    4 5 6 8 11 12
+
+======
+test10.txt
+    nombre de noeud(s): 12
+    Nombre de lien(s): 15
+    start: 4
+    end: 12
+    pathfinding:
+    4 12
+
+======
+other files
+    FILE_NOT_FOUND : impossible d’ouvrir le fichier
+
 
