@@ -1,0 +1,39 @@
+//les resultats attendue
+======
+test1.txt
+    nombre de noeud(s): 2
+    Nombre de lien(s): 1
+    start: 1
+    end: 2
+    pathfinding:
+    1 2
+
+======
+test2.txt
+    nombre de noeud(s): 6
+    Nombre de lien(s): 5
+    start: 2
+    end: 6
+    pathfinding:
+    2 1 3 4 5 6
+
+======
+test3.txt
+    nombre de noeud(s): 9
+    Nombre de lien(s): 10
+    start: 1
+    end: 8
+    pathfinding:
+    1 2 4 6 7 8
+    ou
+    1 3 4 6 7 8
+
+======
+test X:
+
+======
+test Y:
+
+======
+test Z:
+
