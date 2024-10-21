@@ -17,5 +17,4 @@ int main(int argc, char* argv[])
 
     Node **nodes_array = init_node(argv[1]);
     get_node_by_id(nodes_array, 5);
-    //init_node(argv[1]);
 }

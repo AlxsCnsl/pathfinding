@@ -28,4 +28,5 @@ int get_node_id_by_index(char *filename, int index);
 Node** init_node( char *filename );
 Node* get_node_by_id(Node **nodes, int id);
 Node* init_graph(Node **nodes);
+void display_nodes(Node* start);
 #endif //LIBRARY_H
