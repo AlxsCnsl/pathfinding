@@ -58,4 +58,3 @@ int str_debuts_str(char* str1, char* str2) //verifie si str1 est dans str2() (po
     }
     return 0;
 }
-

@@ -19,8 +19,6 @@ Error get_file_error(char* file_path_name);
 Error file_not_found_error(char* file_path_name);
 Error no_start_node_error(FILE* file);
 Error no_end_node_error(FILE* file);
-
-Error no_valid_path_error(FILE* file);
 Error bad_file_format_error(FILE* file);
 
 #endif //ERROR_FILE_H
