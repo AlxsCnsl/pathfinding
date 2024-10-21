@@ -24,5 +24,6 @@ int get_links_nbr(char *filename);
 int get_nod_star(char *filename);
 int get_nod_end(char *filename);
 
+int get_node_id_by_index(char *filename, int index);
 Node** init_node( char *filename );
 #endif //LIBRARY_H

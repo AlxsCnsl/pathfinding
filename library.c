@@ -86,6 +86,28 @@ int get_nod_end(char *filename)
     return atoi(buffer);//transforme le char buffer en int 
 }
 
-Node** init_node( char *filename ){
+int get_node_id_by_index(char *filename, int index){
+        FILE* file = fopen(filename, "r");
+    char buffer[256];
+    int nods_id = 0;
+    while(fgets(buffer, sizeof(buffer), file)!= NULL &&//while
+    (str_debuts_str("#links", buffer)))//while
+    {
+        if(str_debuts_str("#", buffer)==1)
+        {
+            nods_id++;
+            if(index = nods_id -1){
+                return atoi(buffer);
+            }
+        }
+    }
+}
 
+Node** init_node( char *filename ){
+    int i, nodes_nbr = get_nods_nbr(filename);
+    Node** n_tab = malloc(nodes_nbr * sizeof(Node*));
+    for(i=0;i<nodes_nbr;i++){
+        Node* node;
+        node->id = 0;
+    }
 }
