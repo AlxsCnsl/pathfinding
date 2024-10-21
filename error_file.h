@@ -14,7 +14,7 @@ typedef enum{
     BAD_FILE_FORMAT = 5
 } Error;
 
-void display_file_error(Error rror);
+void display_file_error(Error error);
 Error get_file_error(char* file_path_name);
 Error file_not_found_error(char* file_path_name);
 Error no_start_node_error(FILE* file);

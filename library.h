@@ -14,12 +14,15 @@ typedef struct n{
 
 
 int main(int argc, char* argv[]);
-
-
 int str_debuts_str(char* str1, char* str2);
-void display_nods_nbr(FILE *file);
-void display_links_nbr(FILE *file);
-void display_nod_star(FILE* file);
-void display_nod_end(FILE* file);
+void display_nods_nbr(char *filename);
+void display_links_nbr(char *filename);
+void display_nod_star(char *filename);
+void display_nod_end(char *filename);
+int get_nods_nbr(char *filename);
+int get_links_nbr(char *filename);
+int get_nod_star(char *filename);
+int get_nod_end(char *filename);
 
+Node** init_node( char *filename );
 #endif //LIBRARY_H

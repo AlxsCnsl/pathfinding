@@ -19,12 +19,12 @@ Error get_file_error(char* file_path_name)
     {
         return NO_START_NODE;
     }
-    file = fopen(file_path_name, "r");
+    rewind(file);
     if (no_end_node_error(file))
     {
         return NO_END_NODE;
     }
-    file = fopen(file_path_name, "r");
+    rewind(file);
     if( bad_file_format_error(file)){
         return BAD_FILE_FORMAT;
     }
