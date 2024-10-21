@@ -111,7 +111,6 @@ Node** init_node( char *filename ){
     for(i=0;i<nodes_nbr;i++){
         n_tab[i] = (Node*)malloc(sizeof(Node));
         n_tab[i]->id = get_node_id_by_index(filename, i);
-        printf("ID = %d\n", n_tab[i]->id);
     }
     return n_tab;
 }
@@ -123,7 +122,6 @@ Node* get_node_by_id(Node **nodes, int id)
     {
         i++;
     }
-    printf("Node by id : %d\n", nodes[i]->id);
     return nodes[i];
 }
 
