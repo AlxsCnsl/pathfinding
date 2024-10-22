@@ -6,6 +6,11 @@
 #include <string.h>
 #include "error_file.h"
 
+typedef enum 
+{
+    NOTMARKED,
+    MARKED
+} Mark;
 
 typedef struct n{
     int id;
@@ -25,11 +30,7 @@ typedef struct{
     Element *premier;
 } Queue;
 
-typedef enum 
-{
-    NOTMARKED,
-    MARKED
-} Mark;
+
 
 int main(int argc, char* argv[]);
 int str_debuts_str(char* str1, char* str2);
@@ -47,9 +48,9 @@ Node** init_node( char *filename );
 Node* get_node_by_id(Node **nodes, int id);
 void display_nodes(Node* start);
 
-void enqueue(Queue *queue, Node node_to_enq);
-Node dequeue(Queue *queue);
-void mark(Node node_to_mark);
+void enqueue(Queue *queue, Node *node_to_enq);
+Node *dequeue(Queue *queue);
+void mark(Node *node_to_mark);
 
 
 #endif //LIBRARY_H

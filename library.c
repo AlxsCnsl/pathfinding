@@ -130,25 +130,25 @@ Node* get_node_by_id(Node **nodes, int id)
 
 void display_nodes(Node* start)
 {
-    Queue nodes_queue = NULL;
-    Node dq_node = NULL;
+    Queue *nodes_queue = NULL;
+    Node *dq_node;
     enqueue(nodes_queue, start);
 
-    while (nodes_queue.premier != NULL)
+    while (nodes_queue->premier != NULL)
     {
         dq_node = dequeue(nodes_queue);
         
-        if (dq_node.mark == NOTMARKED)
+        if (dq_node->mark == NOTMARKED)
         {
             mark(dq_node);
-            printf("%d\n", dq_node.id);
-            if (dq_node.links != NULL)
+            printf("%d\n", dq_node->id);
+            if (dq_node->links != NULL)
             {
-                for (int i = 0 ; i < dq_node.links_size ; i++)
+                for (int i = 0 ; i < dq_node->links_size ; i++)
                 {
-                    if (dq_node.links[i]->mark == NOTMARKED)
+                    if (dq_node->links[i]->mark == NOTMARKED)
                     {
-                        enqueue(nodes_queue, dq_node.links[i]);
+                        enqueue(nodes_queue, dq_node->links[i]);
                     }
                 }
             }
@@ -157,7 +157,7 @@ void display_nodes(Node* start)
 }
 
 
-void enqueue(Queue *queue, Node node_to_enq)
+void enqueue(Queue *queue, Node *node_to_enq)
 {
     Element *new = malloc(sizeof(*new));
     if (queue == NULL || new == NULL)
@@ -165,7 +165,7 @@ void enqueue(Queue *queue, Node node_to_enq)
         exit(EXIT_FAILURE);
     }
 
-    new->node = node_to_enq;
+    new->node = *node_to_enq;
     new->next = NULL;
 
     if (queue->premier != NULL) /* Si file non vide */
@@ -185,14 +185,15 @@ void enqueue(Queue *queue, Node node_to_enq)
 }
 
 
-Node dequeue(Queue *queue)
+Node *dequeue(Queue *queue)
 {
     if (queue == NULL)
     {
         exit(EXIT_FAILURE);
     }
 
-    Node node_to_dq = NULL;
+    Node node_to_dq;
+    Node *ptr_on_node_to_dq = &node_to_dq;
     /* Vérifie s'il y a quelque chose à défiler */
     if (queue->premier != NULL)
     {
@@ -201,7 +202,7 @@ Node dequeue(Queue *queue)
         queue->premier = queue_element->next;
         free(queue_element);
     }
-    return node_to_dq;
+    return ptr_on_node_to_dq;
 }
 
 void mark(Node *node_to_mark)
