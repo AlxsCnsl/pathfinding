@@ -9,8 +9,18 @@
 
 typedef struct n{
     int id;
+    int mark;
     struct n **links;
 } Node;
+
+typedef struct{
+    Element *next;
+    Node node;
+} Element;
+
+typedef struct{
+    Element *premier;
+} Queue;
 
 
 int main(int argc, char* argv[]);
@@ -27,6 +37,10 @@ int get_node_end(char *filename);
 int get_node_id_by_index(char *filename, int index);
 Node** init_node( char *filename );
 Node* get_node_by_id(Node **nodes, int id);
-Node* init_graph(Node **nodes);
 void display_nodes(Node* start);
+
+void enqueue(Queue *queue, int new_nbr)
+int dequeue(Queue *queue);
+
+
 #endif //LIBRARY_H

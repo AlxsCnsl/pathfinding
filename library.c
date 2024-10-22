@@ -127,12 +127,58 @@ Node* get_node_by_id(Node **nodes, int id)
     return nodes[i];
 }
 
-Node* init_graph(Node **nodes)
-{
-
-}
 
 void display_nodes(Node* start)
 {
     
+}
+
+
+void enqueue(Queue *queue, Node node_to_enq)
+{
+    Element *new = malloc(sizeof(*new));
+    if (queue == NULL || new == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    new->node = node_to_enq;
+
+    if (queue->premier != NULL) /* Si file non vide */
+    {
+        /* On va à la fin de la file */
+        Element *current_element = queue->premier;
+        while (current_element->next != NULL)
+        {
+            current_element = current_element->next;
+        }
+        current_element->next = new;
+    }
+    else /* File vide donc élément est le premier */
+    {
+        queue->premier = new;
+    }
+}
+
+
+int dequeue(Queue *queue)
+{
+    if (queue == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    int nbr_to_dq = 0;
+
+    /* Vérifie s'il y a quelque chose à défiler */
+    if (queue->premier != NULL)
+    {
+        Element *queue_element = queue->premier;
+
+        nbr_to_dq = queue_element->node.id;
+        queue->premier = queue_element->next;
+        free(queue_element);
+    }
+
+    return nbr_to_dq;
 }
