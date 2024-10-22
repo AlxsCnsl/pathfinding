@@ -26,6 +26,6 @@ int get_node_end(char *filename);
 
 int get_node_id_by_index(char *filename, int index);
 Node** init_node( char *filename );
-Node* get_node_by_id(Node **nodes, int id);
+Node* get_node_by_id(Node **nodes, int size, int id);
 Node* init_graph(Node **nodes);
 #endif //LIBRARY_H

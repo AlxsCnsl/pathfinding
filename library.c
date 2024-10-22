@@ -104,7 +104,20 @@ int get_node_id_by_index(char *filename, int index){
     return 0;
 }
 
-Node** init_node( char *filename ){
+
+int get_nbr_links_by_id()
+{
+
+}
+
+
+void init_links_node(Node* node,)
+{
+    int size =  
+}
+
+Node** init_node( char *filename )
+{
     int i, nodes_nbr = get_nods_nbr(filename);
     Node** n_tab = (Node**)malloc(nodes_nbr * sizeof(Node*));
     
@@ -115,17 +128,14 @@ Node** init_node( char *filename ){
     return n_tab;
 }
 
-Node* get_node_by_id(Node **nodes, int id)
+
+Node* get_node_by_id(Node **nodes, int size, int id)
 {
-    int i = 0;
-    while (id != nodes[i]->id)
-    {
-        i++;
+    int i;
+    for(i=0; i<size; i++){
+        printf("ON PASSE dans le noeud à id %d à index %d\n",nodes[i]->id, i );
+        if(id == nodes[i]->id){
+            return nodes[i];
+        }
     }
-    return nodes[i];
 }
-
-/*Node* init_graph(Node **nodes)
-{
-
-}*/

@@ -12,10 +12,10 @@ int main(int argc, char* argv[])
     display_links_nbr(argv[1]);
     display_node_start(argv[1]);
     display_node_end(argv[1]);
-    int a = get_node_id_by_index(argv[1], 2);
-    printf("Get_node_id_by_index : %d\n", a);
-
     Node **nodes_array = init_node(argv[1]);
-    get_node_by_id(nodes_array, 5);
+
+    Node* nd = get_node_by_id(nodes_array,get_nods_nbr(argv[1]), 14);
+    printf("id de nd : %d\n", nd->id);
+    
     //init_node(argv[1]);
 }
