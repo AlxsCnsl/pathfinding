@@ -9,19 +9,27 @@
 
 typedef struct n{
     int id;
-    int mark;
     struct n **links;
+    int links_size;
+    Mark mark;
 } Node;
 
-typedef struct{
+typedef struct Element Element;
+struct Element
+{
     Element *next;
     Node node;
-} Element;
+};
 
 typedef struct{
     Element *premier;
 } Queue;
 
+typedef enum 
+{
+    NOTMARKED,
+    MARKED
+} Mark;
 
 int main(int argc, char* argv[]);
 int str_debuts_str(char* str1, char* str2);
@@ -39,8 +47,9 @@ Node** init_node( char *filename );
 Node* get_node_by_id(Node **nodes, int id);
 void display_nodes(Node* start);
 
-void enqueue(Queue *queue, int new_nbr)
-int dequeue(Queue *queue);
+void enqueue(Queue *queue, Node node_to_enq);
+Node dequeue(Queue *queue);
+void mark(Node node_to_mark);
 
 
 #endif //LIBRARY_H
