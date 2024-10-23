@@ -204,3 +204,97 @@ Node* get_node_by_id(Node **nodes, int size, int id) //recup un node grace à un
     }
     return NULL;
 }
+
+
+//les fonction à testé======================================================
+
+void display_nodes(Node* start)
+{
+    Queue *nodes_queue = NULL;
+    Node *dq_node;
+    enqueue(nodes_queue, start);
+
+    while (nodes_queue->premier != NULL)
+    {
+        dq_node = dequeue(nodes_queue);
+        
+        if (dq_node->mark == NOTMARKED)
+        {
+            mark(dq_node);
+            printf("%d\n", dq_node->id);
+            if (dq_node->links != NULL)
+            {
+                for (int i = 0 ; i < dq_node->links_size ; i++)
+                {
+                    if (dq_node->links[i]->mark == NOTMARKED)
+                    {
+                        enqueue(nodes_queue, dq_node->links[i]);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+void enqueue(Queue *queue, Node *node_to_enq)
+{
+    Element *new = malloc(sizeof(*new));
+    if (queue == NULL || new == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    new->node = *node_to_enq;
+    new->next = NULL;
+
+    if (queue->premier != NULL) /* Si file non vide */
+    {
+        /* On va à la fin de la file */
+        Element *current_element = queue->premier;
+        while (current_element->next != NULL)
+        {
+            current_element = current_element->next;
+        }
+        current_element->next = new;
+    }
+    else /* File vide donc élément est le premier */
+    {
+        queue->premier = new;
+    }
+}
+
+
+Node *dequeue(Queue *queue)
+{
+    if (queue == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    Node node_to_dq;
+    Node *ptr_on_node_to_dq = &node_to_dq;
+    /* Vérifie s'il y a quelque chose à défiler */
+    if (queue->premier != NULL)
+    {
+        Element *queue_element = queue->premier;
+        node_to_dq = queue_element->node;
+        queue->premier = queue_element->next;
+        free(queue_element);
+    }
+    return ptr_on_node_to_dq;
+}
+
+void mark(Node *node_to_mark)
+{
+    if (node_to_mark == NULL)
+    {
+        printf("Erreur Node NULL\n");
+        exit(EXIT_SUCCESS);
+    }
+
+    if (node_to_mark->mark == NOTMARKED)
+    {
+        node_to_mark->mark = MARKED;
+    }
+}
