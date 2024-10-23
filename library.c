@@ -33,7 +33,7 @@ int str_debuts_str(char* str1, char* str2) //verifie si str1 est dans str2() (po
     return 0;
 }
 
-int get_nods_nbr(char *filename)
+int get_nods_nbr(char *filename) //get le nombre de nodes
 {
     FILE* file = fopen(filename, "r");
     char buffer[256];
@@ -50,7 +50,7 @@ int get_nods_nbr(char *filename)
     return nods_nbr;
 }
 
-int get_links_nbr(char *filename)
+int get_links_nbr(char *filename) // get le nombre de liens
 {
     FILE* file = fopen(filename, "r");
     char buffer[256];
@@ -64,7 +64,7 @@ int get_links_nbr(char *filename)
     return links_nbr;
 }
 
-int get_node_start(char *filename)
+int get_node_start(char *filename) // get le node de depart
 {
     FILE* file = fopen(filename, "r");
     char buffer[256];
@@ -75,7 +75,7 @@ int get_node_start(char *filename)
     return atoi(buffer);//transforme le char buffer en int 
 }
 
-int get_node_end(char *filename)
+int get_node_end(char *filename)// get le node de fin
 {
     FILE* file = fopen(filename, "r");
     char buffer[256];
@@ -97,10 +97,6 @@ int get_node_id_by_index(char *filename, int index)  // retourne l'id en fonctio
         if(str_debuts_str("#", buffer)==1)
         {
             nods_id++;
-<<<<<<< Updated upstream
-=======
-            printf("BUF: %s",buffer );
->>>>>>> Stashed changes
             if(index == nods_id -1){
                 return atoi(buffer);
             }
@@ -173,7 +169,6 @@ void init_links_node(Node** tab_nodes, Node* node, char* filename) // initie les
     }
 }
 
-
 void init_links_node_by_node(Node** tab_nodes, char* filename )//initie tout les liens de tout les noeuds
 {
     int i, nodes_nbr = get_nods_nbr(filename);
@@ -196,7 +191,6 @@ Node** init_node( char *filename )// initie les noeud et les lien
     init_links_node_by_node(n_tab, filename);
     return n_tab;
 }
-
 
 Node* get_node_by_id(Node **nodes, int size, int id) //recup un node grace à un id
 {
