@@ -86,7 +86,8 @@ int get_node_end(char *filename)
     return atoi(buffer);//transforme le char buffer en int 
 }
 
-int get_node_id_by_index(char *filename, int index){
+int get_node_id_by_index(char *filename, int index)  // retourne l'id en fonction de ca position dans le fichier
+{
     FILE* file = fopen(filename, "r");
     char buffer[256];
     int nods_id = 0;
@@ -104,23 +105,21 @@ int get_node_id_by_index(char *filename, int index){
     return 0;
 }
 
-
 int get_links_nbr_by_id(int id, char* filename) //retourne le nombre de lien qu'à un node
 {
     FILE *file = fopen(filename, "r");
     char buffer[256];
-    int i, left_id, right_id, nods_nbr = get_links_nbr(filename);
+    int i, left_id, right_id, links_nbr = get_links_nbr(filename);
     int retun_value = 0;
     while (fgets(buffer, sizeof(buffer), file)!= NULL &&//while le while pour ignorer tout jusqu'a #links
     str_debuts_str("#links", buffer)){}//while
-    for (i=1; i<nods_nbr; i++){
+    for (i=1; i<=links_nbr; i++)
+    {
         if(fgets(buffer, sizeof(buffer), file)!= NULL && //if//    on incremente le curseur de file et on aplique la ligne a bufer buffer 
         sscanf(buffer, "%d-%d", &left_id, &right_id) == 2) //if/   et on change les valeurs de  left_id et right_id
-        printf(">%d:%d\n", left_id, right_id);
         {
             if(left_id == id || right_id == id)
             {
-                printf(">>>>%d:%d pour index %d\n", left_id, right_id, id);
                 retun_value ++;
             }
         }
@@ -133,11 +132,11 @@ int get_oposit_id_in_file(int id, char* filename, int rank)//ex: si id = 1 & ran
 {
     FILE *file = fopen(filename, "r");
     char buffer[256];
-    int i, left_id, right_id, nods_nbr = get_nods_nbr(filename);
+    int i, left_id, right_id, links_nbr = get_links_nbr(filename);
     int rank_lvl = 1,retun_value = 0;
     while (fgets(buffer, sizeof(buffer), file)!= NULL &&//while le while pour ignorer tout jusqu'a #links
     str_debuts_str("#links", buffer)){}//while
-    for (i=0; i<nods_nbr; i++){
+    for (i=0; i<=links_nbr; i++){
         if(fgets(buffer, sizeof(buffer), file)!= NULL && //if//    on incremente le curseur de file et on aplique la ligne a bufer buffer 
         sscanf(buffer, "%d-%d", &left_id, &right_id) == 2) //if/   et on change les valeurs de  left_id et right_id
         {
@@ -156,41 +155,50 @@ int get_oposit_id_in_file(int id, char* filename, int rank)//ex: si id = 1 & ran
         }
     }
     fclose(file); 
-    return 0;
+    return 100;
 }
 
-void init_links_node(Node* node, char* filename) //A finir
+void init_links_node(Node** tab_nodes, Node* node, char* filename) // initie les liens d'un Node  A finir =============================== ICI
 {
-    int i, size = get_links_nbr_by_id(node->id, filename);
+    int i, id, size = get_links_nbr_by_id(node->id, filename);
     node->links = (Node**)malloc(size*sizeof(Node**));
     for(i = 0; i<size; i++)
     {
-        //links[i] =
+        id = get_oposit_id_in_file(node->id, filename, i+1);
+        node->links[i] = get_node_by_id(tab_nodes, get_nods_nbr(filename), id);
     }
 }
 
 
-Node** init_node( char *filename )
+void init_links_node_by_node(Node** tab_nodes, char* filename )//initie tout les liens de tout les noeuds
+{
+    int i, nodes_nbr = get_nods_nbr(filename);
+    for(i=0;i<nodes_nbr;i++)
+    {
+        init_links_node(tab_nodes, tab_nodes[i], filename);
+    }
+}
+
+Node** init_node( char *filename )// initie les noeud et les lien 
 {
     int i, nodes_nbr = get_nods_nbr(filename);
     Node** n_tab = (Node**)malloc(nodes_nbr * sizeof(Node*));
     
     for(i=0;i<nodes_nbr;i++)
     {
-        n_tab[i] = (Node*)malloc(sizeof(Node));
+        n_tab[i] = (Node*)malloc(sizeof(Node*));
         n_tab[i]->id = get_node_id_by_index(filename, i);
-        init_links_node(n_tab[i], filename);
     }
+    init_links_node_by_node(n_tab, filename);
     return n_tab;
 }
 
 
-Node* get_node_by_id(Node **nodes, int size, int id)
+Node* get_node_by_id(Node **nodes, int size, int id) //recup un node grace à un id
 {
     int i;
     for(i=0; i<size; i++)
     {
-        printf("ON PASSE dans le noeud à id %d à index %d, et la size = %d\n",nodes[i]->id, i, size);
         if(id == nodes[i]->id)
         {
             return nodes[i];
