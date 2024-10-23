@@ -221,5 +221,17 @@ void mark(Node *node_to_mark)
 
 Node** get_unconnected_nodes(Node **nodes, Node *head)
 {
+    display_nodes(head);
+    int nodes_nbr = display_nods_nbr(nodes);
+    Node **unconnected_nodes = (Node**)malloc(nodes_nbr * sizeof(Node*));
 
+    for (int i = 0 ; i < nodes_nbr ; i++)
+    {
+        if (nodes[i]->mark == NOTMARKED)
+        {
+            unconnected_nodes[i] = nodes[i];
+            printf("Noeud non connecté : %d\n", unconnected_nodes[i]);
+        }
+    }
+    return unconnected_nodes;
 }
