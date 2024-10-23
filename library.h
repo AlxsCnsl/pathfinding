@@ -14,18 +14,23 @@ typedef struct n{
 
 
 int main(int argc, char* argv[]);
+
 int str_debuts_str(char* str1, char* str2);
+
 void display_nods_nbr(char *filename);
 void display_links_nbr(char *filename);
 void display_node_start(char *filename);
 void display_node_end(char *filename);
+
 int get_nods_nbr(char *filename);
 int get_links_nbr(char *filename);
 int get_node_start(char *filename);
 int get_node_end(char *filename);
 
 int get_node_id_by_index(char *filename, int index);
+int get_links_nbr_by_id(int id, char* filename);
+int get_oposit_id_in_file(int id, char* filename, int rank);
+
 Node** init_node( char *filename );
-Node* get_node_by_id(Node **nodes, int id);
-Node* init_graph(Node **nodes);
+Node* get_node_by_id(Node **nodes, int size, int id);
 #endif //LIBRARY_H
