@@ -20,8 +20,8 @@ int main(int argc, char* argv[])
 
     printf("test %d", nodes_array[1]->links[1]->id);
     
-    display_nod_star(argv[1]);
-    display_nod_end(argv[1]);
+    display_node_star(argv[1]);
+    display_node_end(argv[1]);
     int a = get_node_id_by_index(argv[1], 2);
     printf("woooow %d\n", a);
     //init_node(argv[1]);

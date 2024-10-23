@@ -7,10 +7,29 @@
 #include "error_file.h"
 
 
+typedef enum 
+{
+    NOTMARKED,
+    MARKED
+} Mark;
+
 typedef struct n{
     int id;
     struct n **links;
+    int links_size;
+    Mark mark;
 } Node;
+
+typedef struct Element Element;
+struct Element
+{
+    Element *next;
+    Node node;
+};
+
+typedef struct{
+    Element *premier;
+} Queue;
 
 
 int main(int argc, char* argv[]);
@@ -30,7 +49,13 @@ int get_node_end(char *filename);
 int get_node_id_by_index(char *filename, int index);
 int get_links_nbr_by_id(int id, char* filename);
 int get_oposit_id_in_file(int id, char* filename, int rank);
-
 Node** init_node( char *filename );
+
 Node* get_node_by_id(Node **nodes, int size, int id);
+
+void display_nodes(Node* start);
+void enqueue(Queue *queue, Node *node_to_enq);
+Node *dequeue(Queue *queue);
+void mark(Node *node_to_mark);
+
 #endif //LIBRARY_H
