@@ -97,6 +97,10 @@ int get_node_id_by_index(char *filename, int index)  // retourne l'id en fonctio
         if(str_debuts_str("#", buffer)==1)
         {
             nods_id++;
+<<<<<<< Updated upstream
+=======
+            printf("BUF: %s",buffer );
+>>>>>>> Stashed changes
             if(index == nods_id -1){
                 return atoi(buffer);
             }
