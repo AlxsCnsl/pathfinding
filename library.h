@@ -51,6 +51,7 @@ void display_nodes(Node* start);
 void enqueue(Queue *queue, Node *node_to_enq);
 Node *dequeue(Queue *queue);
 void mark(Node *node_to_mark);
+Node** get_unconnected_nodes(Node **nodes, Node *head);
 
 
 #endif //LIBRARY_H

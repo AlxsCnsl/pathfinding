@@ -218,3 +218,8 @@ void mark(Node *node_to_mark)
         node_to_mark->mark = MARKED;
     }
 }
+
+Node** get_unconnected_nodes(Node **nodes, Node *head)
+{
+
+}
