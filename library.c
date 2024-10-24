@@ -195,14 +195,16 @@ Node** init_node( char *filename )// initie les noeud et les lien
     return n_tab;
 }
 
-void give_role(Node* node,char* filename)
+void give_role(Node* node,char* filename)// donne le role type START END || NEUTRAL
 {
     if(node->id == get_node_start(filename))
     {
+        printf("ON A NOTRE NOTRE START <%d>\n", node->id);
         node->role = START;
     }
     else if(node->id == get_node_end(filename))
     {
+        printf("ON A NOTRE END <%d>\n", node->id);
         node->role = END;
     }
     else
@@ -225,28 +227,28 @@ Node* get_node_by_id(Node **nodes, int size, int id) //recup un node grace à un
 }
 
 
-//les fonction à testé======================================================
-
+//les fonction à testé=================================================================================================les fonction à testé//
 
 
 void display_nodes(Node* start)
 {
-    int new_gen_index = 0, step = 1;
+    int new_gen_index = 0;
     Queue* queue= init_queue(100000);//grande taille pour la securité;
-    enqueue(queue, start, &step);
-    while(enqueue_links_new_gen(queue, &new_gen_index, &step)){}
+    enqueue(queue, start);
+    while(enqueue_links_new_gen(queue, &new_gen_index)){}
     display_queue(queue);
+    printf("queue size = %d\n", queue->size );
     unmark_queue(queue);
     free(queue);
 }
 
-bool enqueue_links_new_gen(Queue* queue, int *new_gen_index, int* step)
+bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)
 {
-    *step ++;
+    queue->step_index ++;
     int i, next_gen_index = queue->size;
     bool return_value = false;
     for(i= *new_gen_index; i<next_gen_index; i++){
-        if(enqueue_links_node(queue, queue->items[i], step)){
+        if(enqueue_links_node(queue, queue->items[i])){
             return_value = true;
         }
     }
@@ -254,13 +256,13 @@ bool enqueue_links_new_gen(Queue* queue, int *new_gen_index, int* step)
     return return_value;
 }
 
-bool enqueue_links_node(Queue* queue, Node* node, int* step) //ici le bool de retourn nous permet de dire si il y a eu un ajout dans la file
+bool enqueue_links_node(Queue* queue, Node* node) //ici le bool de retourn nous permet de dire si il y a eu un ajout dans la file
 {
     int i;
     bool return_value = false;
     for(i=0; i< node->links_size; i++){
         if(is_marked(node->links[i])==false){
-            enqueue(queue, node->links[i], step);
+            enqueue(queue, node->links[i]);
             return_value = true;
         }
     }
@@ -275,6 +277,7 @@ Queue* init_queue(int capacity){
     queue->first_elem = NULL;
     queue->last_elem = NULL;
     queue->size = 0;
+    queue->step_index = 1;
     queue->capacity = capacity;
     for(i=0; i<capacity; i++){
         queue->items[i] = NULL;
@@ -314,40 +317,49 @@ Node* get_last_elem_queue(Queue* queue)
 void display_queue(Queue* queue)
 {
     int i;
-    if(is_ampty_queue(queue)){
+    if(is_ampty_queue(queue))
+    {
         printf("La file est vidde\n");
         return;
     }
-    for(i=0; i< queue->size; i++){
+    for(i=0; i< queue->size; i++)
+    {
         display_one_node(queue->items[i]);
     }
     printf("\n");
 }
 
-void display_one_node(Node* node){
-    if(node == NULL){
+void display_one_node(Node* node)
+{
+    if(node == NULL)
+    {
         printf("Tu essais de printf un node qui n'existe pas\n");
         return;
     }
     printf("%d ",node->id);
 }
 
-void enqueue(Queue* queue, Node* node, int* step){
+void enqueue(Queue* queue, Node* node)
+{   
+    printf("AH bah on passe dans le anqueue et on mark <%d>, ~%d~\n",node->id ,node->role);
     mark_node(node);
-    node->step = *step;
+    node->step = queue->step_index;
     queue->items[queue->size] = node;
     queue->size ++;
     queue->last_elem = node;
-    if(queue->size==1){
+    printf("on est aux step %d pour <%d>\n", node->step, node->id);
+    if(queue->size==1)
+    {
         queue->first_elem = node;
     }
 }
 
-void dequeue(Queue* queue){
+void dequeue(Queue* queue)
+{
     int i;
     if(is_ampty_queue(queue))
     {
-        printf("La file est deja vide, rien à retiré");
+        printf("La file est deja vide, rien à retiré\n");
         return;
     }
     for(i = 0; i< queue->size; i++){
@@ -357,7 +369,8 @@ void dequeue(Queue* queue){
 }
 
 
-void mark_node(Node* node){
+void mark_node(Node* node)
+{
     if(node->mark == false)
     {
         node->mark = true;
@@ -370,6 +383,7 @@ void unmark_node(Node* node)
     {
         node->mark = false;
         node->step = 0;
+        printf("on demark <%d>\n",node->id);
     }
 }
 
@@ -377,12 +391,14 @@ void unmark_queue(Queue* queue)
 {
     int i;
     int size = queue->size;;
-    for(i=0; i<size; i++){
+    for(i=0; i<size; i++)
+    {
         unmark_node(queue->items[i]);
     }
 }
 
-bool is_marked(Node* node){
+bool is_marked(Node* node)
+{
     if(node->mark == true)
     {
         return true;
@@ -390,19 +406,21 @@ bool is_marked(Node* node){
     return false;
 }
 
-bool end_is_in_queue(Queue* queue){
+bool end_is_in_queue(Queue* queue)
+{
     int i;
     for(i=0; i<queue->size; i++)
     {
         if(queue->items[i]->role == END)
-        {
+        {   
             return true;
         }
     }
     return false;
 }
 
-bool start_is_in_queue(Queue* queue){
+bool start_is_in_queue(Queue* queue)
+{
     int i;
     for(i=0; i<queue->size; i++)
     {
@@ -415,38 +433,67 @@ bool start_is_in_queue(Queue* queue){
 }
 
 
-void path_finder(Node* end)
+void path_finder(Node* end, Node* start)
 {
-    int new_gen_index = 0, step = 1;
+    int new_gen_index = 0;
     Queue* queue= init_queue(100000);//grande taille pour la securité;
-    enqueue(queue, end, &step);
-    while(enqueue_links_new_gen(queue, &new_gen_index, &step)){}
+    enqueue(queue, end);
+    while(enqueue_links_new_gen(queue, &new_gen_index)){}
+    printf("++++==== step str %d// step end %d\n", start->step, end->step);
+    display_path_finder(start);
     unmark_queue(queue);
     free(queue);
 }
 
-void display_finder(Node* end)
+void display_path_finder(Node* start)
 {
-    Node* active_node = end;
-    while(active_node->role = START){
-        
-    }
+    Node* activ_node = start;
+    int i, activ_step = activ_node->step;
+    Node* test_node = NULL;
+    int test_step;
+    do
+    {
+        activ_step = activ_node->step;
+        for(i=0; i<activ_node->links_size; i++)
+        {
+            test_node = activ_node->links[i];
+            test_step = test_node->step;
+            if(test_step < activ_step)
+            {
+                printf("%d ", activ_node->id);
+                activ_node = test_node;
+                activ_step = test_step;
+            }
+        }
+    }while(activ_node->role != END);
+    printf("%d\n", activ_node->id);
 }
 
 Node** get_unconnected_nodes( Node **nodes,int size ,Node *head)
 {
- 
+    Node** return_nodes = (Node**)malloc(size*sizeof(Node*));
+    int i, tab_index = 0;
+    for(i = 0; i<size; i++)
+    {
+        if(nodes[i]->mark == false)
+        {
+            return_nodes[tab_index] = nodes[i];
+            tab_index ++;
+        }
+    }
+    return return_nodes;
 }
 
 // n'est pas dans get_file_error pour ça complexité.
 int no_valid_path_error(Node* start) 
 {
-    int new_gen_index = 0, step = 1;
+    int new_gen_index = 0;
     Queue* queue= init_queue(100000);//grande taille pour la securité;
-    enqueue(queue, start, &step);
-    while(enqueue_links_new_gen(queue, &new_gen_index, &step)){}
-    if(!end_is_in_queue(queue))
+    enqueue(queue, start);
+    while(enqueue_links_new_gen(queue, &new_gen_index)){}
+    if(end_is_in_queue(queue))
     {
+        unmark_queue(queue);
         return 1;
     }
     unmark_queue(queue);

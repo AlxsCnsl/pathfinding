@@ -31,6 +31,7 @@ typedef struct {
     Node* first_elem;
     Node* last_elem;
     int size;
+    int step_index;
     int capacity;
 } Queue;
 
@@ -69,9 +70,9 @@ Node* get_last_elem_queue(Queue* queue);
 void display_queue(Queue* queue);
 void display_one_node(Node* node);
 
-void enqueue(Queue* queue, Node* node, int* step);
-bool enqueue_links_node(Queue* queue, Node* node, int* step);
-bool enqueue_links_new_gen(Queue* queue, int *new_gen_index, int* step);
+void enqueue(Queue* queue, Node* node);
+bool enqueue_links_node(Queue* queue, Node* node);
+bool enqueue_links_new_gen(Queue* queue, int *new_gen_index);
 void dequeue(Queue* queue);
 
 void mark_node(Node* node);
@@ -82,7 +83,10 @@ bool is_marked(Node* node);
 bool end_is_in_queue(Queue* queue);
 bool start_is_in_queue(Queue* queue);
 
-void path_finder(Node* end);
+void path_finder(Node* end, Node* start);
+void display_path_finder(Node* start);
+
+Node** get_unconnected_nodes( Node **nodes,int size ,Node *head);
 
 //erreur trop specifique pour le error_file.c
 int no_valid_path_error(Node* start);
