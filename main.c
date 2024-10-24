@@ -8,21 +8,22 @@ int main(int argc, char* argv[])
     {
         return error;
     } 
+    
+    Node **nodes_array = init_node(argv[1]);
+    int fst_id = get_node_start(argv[1]);
+    Node* fst_node = get_node_by_id(nodes_array, get_nods_nbr(argv[1]), fst_id);
+
+    if(no_valid_path_error(fst_node)){
+        return NO_VALID_PATH;
+    }
+
     display_nods_nbr(argv[1]);
     display_links_nbr(argv[1]);
     display_node_start(argv[1]);
     display_node_end(argv[1]);
-    Node **nodes_array = init_node(argv[1]);
-
-    Node* nd = nodes_array[0];
-    int nbr_s = get_links_nbr_by_id(nd->id, argv[1]);
-    printf("Size = %d\n",nbr_s );
-
-    printf("test %d", nodes_array[1]->links[1]->id);
     
-    display_node_star(argv[1]);
-    display_node_end(argv[1]);
-    int a = get_node_id_by_index(argv[1], 2);
-    printf("woooow %d\n", a);
-    //init_node(argv[1]);
+    display_nodes(fst_node);
+
+    printf("FIN DU PROGRAME : :)");
+    return 0;
 }

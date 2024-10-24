@@ -110,7 +110,7 @@ int get_links_nbr_by_id(int id, char* filename) //retourne le nombre de lien qu'
     FILE *file = fopen(filename, "r");
     char buffer[256];
     int i, left_id, right_id, links_nbr = get_links_nbr(filename);
-    int retun_value = 0;
+    int return_value = 0;
     while (fgets(buffer, sizeof(buffer), file)!= NULL &&//while le while pour ignorer tout jusqu'a #links
     str_debuts_str("#links", buffer)){}//while
     for (i=1; i<=links_nbr; i++)
@@ -120,20 +120,20 @@ int get_links_nbr_by_id(int id, char* filename) //retourne le nombre de lien qu'
         {
             if(left_id == id || right_id == id)
             {
-                retun_value ++;
+                return_value ++;
             }
         }
     }
     fclose(file); 
-    return retun_value;
+    return return_value;
 }
 
-int get_oposit_id_in_file(int id, char* filename, int rank)//ex: si id = 1 & rank =2 et que fille =  1-2\n1-3 on a return 3; car c'est le 2e fois qu'on vois 1;
-{
+int get_oposit_id_in_file(int id, char* filename, int rank)//ex: si id = 1 & rank =2 et que fille =  1-2\n1-3 on a return 3
+{                                                                                       //car c'est le 2e fois qu'on vois 1
     FILE *file = fopen(filename, "r");
     char buffer[256];
     int i, left_id, right_id, links_nbr = get_links_nbr(filename);
-    int rank_lvl = 1,retun_value = 0;
+    int rank_lvl = 1;
     while (fgets(buffer, sizeof(buffer), file)!= NULL &&//while le while pour ignorer tout jusqu'a #links
     str_debuts_str("#links", buffer)){}//while
     for (i=0; i<=links_nbr; i++){
@@ -155,10 +155,10 @@ int get_oposit_id_in_file(int id, char* filename, int rank)//ex: si id = 1 & ran
         }
     }
     fclose(file); 
-    return 100;
+    return 0;
 }
 
-void init_links_node(Node** tab_nodes, Node* node, char* filename) // initie les liens d'un Node  A finir =============================== ICI
+void init_links_node(Node** tab_nodes, Node* node, char* filename) // initie les liens d'un Node
 {
     int i, id, size = get_links_nbr_by_id(node->id, filename);
     node->links = (Node**)malloc(size*sizeof(Node**));
@@ -182,14 +182,33 @@ Node** init_node( char *filename )// initie les noeud et les lien
 {
     int i, nodes_nbr = get_nods_nbr(filename);
     Node** n_tab = (Node**)malloc(nodes_nbr * sizeof(Node*));
-    
     for(i=0;i<nodes_nbr;i++)
     {
         n_tab[i] = (Node*)malloc(sizeof(Node*));
         n_tab[i]->id = get_node_id_by_index(filename, i);
+        n_tab[i]->step = 0;
+        n_tab[i]->links_size = get_links_nbr_by_id(n_tab[i]->id, filename);
+        n_tab[i]->mark = false;
+        give_role(n_tab[i], filename);
     }
     init_links_node_by_node(n_tab, filename);
     return n_tab;
+}
+
+void give_role(Node* node,char* filename)
+{
+    if(node->id == get_node_start(filename))
+    {
+        node->role = START;
+    }
+    else if(node->id == get_node_end(filename))
+    {
+        node->role = END;
+    }
+    else
+    {
+        node->role = NEUTRAL;
+    }
 }
 
 Node* get_node_by_id(Node **nodes, int size, int id) //recup un node grace à un id
@@ -208,93 +227,203 @@ Node* get_node_by_id(Node **nodes, int size, int id) //recup un node grace à un
 
 //les fonction à testé======================================================
 
+
+
 void display_nodes(Node* start)
 {
-    Queue *nodes_queue = NULL;
-    Node *dq_node;
-    enqueue(nodes_queue, start);
+    int new_gen_index = 0;
+    Queue* queue= init_queue(100000);//grande taille pour la securité;
+    enqueue(queue, start);
+    while(enqueue_links_new_gen(queue, &new_gen_index)){}
+    display_queue(queue);
+    unmark_queue(queue);
+    free(queue);
+}
 
-    while (nodes_queue->premier != NULL)
-    {
-        dq_node = dequeue(nodes_queue);
-        
-        if (dq_node->mark == NOTMARKED)
-        {
-            mark(dq_node);
-            printf("%d\n", dq_node->id);
-            if (dq_node->links != NULL)
-            {
-                for (int i = 0 ; i < dq_node->links_size ; i++)
-                {
-                    if (dq_node->links[i]->mark == NOTMARKED)
-                    {
-                        enqueue(nodes_queue, dq_node->links[i]);
-                    }
-                }
-            }
+bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)
+{
+    int i, next_gen_index = queue->size;
+    bool return_value = false;
+    for(i= *new_gen_index; i<next_gen_index; i++){
+        if(enqueue_links_node(queue, queue->items[i])){
+            return_value = true;
         }
     }
+    *new_gen_index = next_gen_index;
+    return return_value;
 }
 
-
-void enqueue(Queue *queue, Node *node_to_enq)
+bool enqueue_links_node(Queue* queue, Node* node) //ici le bool de retourn nous permet de dire si il y a eu un ajout dans la file
 {
-    Element *new = malloc(sizeof(*new));
-    if (queue == NULL || new == NULL)
-    {
-        exit(EXIT_FAILURE);
-    }
-
-    new->node = *node_to_enq;
-    new->next = NULL;
-
-    if (queue->premier != NULL) /* Si file non vide */
-    {
-        /* On va à la fin de la file */
-        Element *current_element = queue->premier;
-        while (current_element->next != NULL)
-        {
-            current_element = current_element->next;
+    int i;
+    bool return_value = false;
+    for(i=0; i< node->links_size; i++){
+        if(is_marked(node->links[i])==false){
+            enqueue(queue, node->links[i]);
+            return_value = true;
         }
-        current_element->next = new;
     }
-    else /* File vide donc élément est le premier */
+    return return_value;
+}
+
+Queue* init_queue(int capacity){
+    int i;
+    Queue* queue = malloc(sizeof(Queue));
+    queue->items = NULL;
+    queue->items = malloc(capacity*(sizeof(Node*)));
+    queue->first_elem = NULL;
+    queue->last_elem = NULL;
+    queue->size = 0;
+    queue->capacity = capacity;
+    for(i=0; i<capacity; i++){
+        queue->items[i] = NULL;
+    }
+    return queue;
+}
+
+bool is_ampty_queue(Queue* queue)
+{
+    if((queue->first_elem == NULL && queue->last_elem== NULL) ||queue->size==0)
     {
-        queue->premier = new;
+        return true;
+    }
+    return false;
+}
+
+Node* get_first_elem_queue(Queue* queue)
+{
+    if(is_ampty_queue(queue))
+    {
+        printf("ERREUR, first = NULL\n");
+        exit(2);
+    }
+    return queue->first_elem;
+}
+
+Node* get_last_elem_queue(Queue* queue)
+{
+    if(is_ampty_queue(queue))
+    {
+        printf("ERREUR, last = NULL\n");
+        exit(2);
+    }
+    return queue->last_elem;
+}
+
+void display_queue(Queue* queue)
+{
+    int i;
+    if(is_ampty_queue(queue)){
+        printf("La file est vidde\n");
+        return;
+    }
+    for(i=0; i< queue->size; i++){
+        display_one_node(queue->items[i]);
+    }
+    printf("\n");
+}
+
+void display_one_node(Node* node){
+    if(node == NULL){
+        printf("Tu essais de printf un node qui n'existe pas\n");
+        return;
+    }
+    printf("%d ",node->id);
+}
+
+void enqueue(Queue* queue, Node* node){
+    mark_node(node);
+    queue->items[queue->size] = node;
+    queue->size ++;
+    queue->last_elem = node;
+    if(queue->size==1){
+        queue->first_elem = node;
+    }
+}
+
+void dequeue(Queue* queue){
+    int i;
+    if(is_ampty_queue(queue))
+    {
+        printf("La file est deja vide, rien à retiré");
+        return;
+    }
+    for(i = 0; i< queue->size; i++){
+        queue->items[i] = queue->items[i+1];
+        queue->size --;
     }
 }
 
 
-Node *dequeue(Queue *queue)
-{
-    if (queue == NULL)
+void mark_node(Node* node){
+    if(node->mark == false)
     {
-        exit(EXIT_FAILURE);
+        node->mark = true;
     }
-
-    Node node_to_dq;
-    Node *ptr_on_node_to_dq = &node_to_dq;
-    /* Vérifie s'il y a quelque chose à défiler */
-    if (queue->premier != NULL)
-    {
-        Element *queue_element = queue->premier;
-        node_to_dq = queue_element->node;
-        queue->premier = queue_element->next;
-        free(queue_element);
-    }
-    return ptr_on_node_to_dq;
 }
 
-void mark(Node *node_to_mark)
+void unmark_node(Node* node)
 {
-    if (node_to_mark == NULL)
+    if(node->mark == true)
     {
-        printf("Erreur Node NULL\n");
-        exit(EXIT_SUCCESS);
+        node->mark = false;
     }
+}
 
-    if (node_to_mark->mark == NOTMARKED)
-    {
-        node_to_mark->mark = MARKED;
+void unmark_queue(Queue* queue)
+{
+    int i;
+    int size = queue->size;;
+    for(i=0; i<size; i++){
+        unmark_node(queue->items[i]);
     }
+}
+
+bool is_marked(Node* node){
+    if(node->mark == true)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool end_is_in_queue(Queue* queue){
+    int i;
+    for(i=0; i<queue->size; i++)
+    {
+        if(queue->items[i]->role == END)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool start_is_in_queue(Queue* queue){
+    int i;
+    for(i=0; i<queue->size; i++)
+    {
+        if(queue->items[i]->role == START)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+// n'est pas dans get_file_error pour ça complexité.
+int no_valid_path_error(Node* start) 
+{
+    int new_gen_index = 0;
+    Queue* queue= init_queue(100000);//grande taille pour la securité;
+    enqueue(queue, start);
+    while(enqueue_links_new_gen(queue, &new_gen_index)){}
+    if(!end_is_in_queue(queue))
+    {
+        return 1;
+    }
+    unmark_queue(queue);
+    display_file_error(NO_VALID_PATH);
+    free(queue);
+    return 0;
 }
