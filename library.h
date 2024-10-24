@@ -69,9 +69,9 @@ Node* get_last_elem_queue(Queue* queue);
 void display_queue(Queue* queue);
 void display_one_node(Node* node);
 
-void enqueue(Queue* queue, Node* node);
-bool enqueue_links_node(Queue* queue, Node* node);
-bool enqueue_links_new_gen(Queue* queue, int *new_gen_index);
+void enqueue(Queue* queue, Node* node, int* step);
+bool enqueue_links_node(Queue* queue, Node* node, int* step);
+bool enqueue_links_new_gen(Queue* queue, int *new_gen_index, int* step);
 void dequeue(Queue* queue);
 
 void mark_node(Node* node);
@@ -82,8 +82,9 @@ bool is_marked(Node* node);
 bool end_is_in_queue(Queue* queue);
 bool start_is_in_queue(Queue* queue);
 
+void path_finder(Node* end);
+
 //erreur trop specifique pour le error_file.c
 int no_valid_path_error(Node* start);
-
 
 #endif //LIBRARY_H

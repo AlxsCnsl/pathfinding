@@ -231,21 +231,22 @@ Node* get_node_by_id(Node **nodes, int size, int id) //recup un node grace à un
 
 void display_nodes(Node* start)
 {
-    int new_gen_index = 0;
+    int new_gen_index = 0, step = 1;
     Queue* queue= init_queue(100000);//grande taille pour la securité;
-    enqueue(queue, start);
-    while(enqueue_links_new_gen(queue, &new_gen_index)){}
+    enqueue(queue, start, &step);
+    while(enqueue_links_new_gen(queue, &new_gen_index, &step)){}
     display_queue(queue);
     unmark_queue(queue);
     free(queue);
 }
 
-bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)
+bool enqueue_links_new_gen(Queue* queue, int *new_gen_index, int* step)
 {
+    *step ++;
     int i, next_gen_index = queue->size;
     bool return_value = false;
     for(i= *new_gen_index; i<next_gen_index; i++){
-        if(enqueue_links_node(queue, queue->items[i])){
+        if(enqueue_links_node(queue, queue->items[i], step)){
             return_value = true;
         }
     }
@@ -253,13 +254,13 @@ bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)
     return return_value;
 }
 
-bool enqueue_links_node(Queue* queue, Node* node) //ici le bool de retourn nous permet de dire si il y a eu un ajout dans la file
+bool enqueue_links_node(Queue* queue, Node* node, int* step) //ici le bool de retourn nous permet de dire si il y a eu un ajout dans la file
 {
     int i;
     bool return_value = false;
     for(i=0; i< node->links_size; i++){
         if(is_marked(node->links[i])==false){
-            enqueue(queue, node->links[i]);
+            enqueue(queue, node->links[i], step);
             return_value = true;
         }
     }
@@ -331,8 +332,9 @@ void display_one_node(Node* node){
     printf("%d ",node->id);
 }
 
-void enqueue(Queue* queue, Node* node){
+void enqueue(Queue* queue, Node* node, int* step){
     mark_node(node);
+    node->step = *step;
     queue->items[queue->size] = node;
     queue->size ++;
     queue->last_elem = node;
@@ -367,6 +369,7 @@ void unmark_node(Node* node)
     if(node->mark == true)
     {
         node->mark = false;
+        node->step = 0;
     }
 }
 
@@ -411,13 +414,37 @@ bool start_is_in_queue(Queue* queue){
     return false;
 }
 
+
+void path_finder(Node* end)
+{
+    int new_gen_index = 0, step = 1;
+    Queue* queue= init_queue(100000);//grande taille pour la securité;
+    enqueue(queue, end, &step);
+    while(enqueue_links_new_gen(queue, &new_gen_index, &step)){}
+    unmark_queue(queue);
+    free(queue);
+}
+
+void display_finder(Node* end)
+{
+    Node* active_node = end;
+    while(active_node->role = START){
+        
+    }
+}
+
+Node** get_unconnected_nodes( Node **nodes,int size ,Node *head)
+{
+ 
+}
+
 // n'est pas dans get_file_error pour ça complexité.
 int no_valid_path_error(Node* start) 
 {
-    int new_gen_index = 0;
+    int new_gen_index = 0, step = 1;
     Queue* queue= init_queue(100000);//grande taille pour la securité;
-    enqueue(queue, start);
-    while(enqueue_links_new_gen(queue, &new_gen_index)){}
+    enqueue(queue, start, &step);
+    while(enqueue_links_new_gen(queue, &new_gen_index, &step)){}
     if(!end_is_in_queue(queue))
     {
         return 1;
@@ -427,3 +454,4 @@ int no_valid_path_error(Node* start)
     free(queue);
     return 0;
 }
+

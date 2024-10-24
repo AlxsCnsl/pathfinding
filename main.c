@@ -1,6 +1,7 @@
 #include "library.h"
 
 
+
 int main(int argc, char* argv[])
 {
     Error error = get_file_error(argv[1]);
@@ -11,7 +12,9 @@ int main(int argc, char* argv[])
     
     Node **nodes_array = init_node(argv[1]);
     int fst_id = get_node_start(argv[1]);
+    int end_id = get_node_end(argv[1]);
     Node* fst_node = get_node_by_id(nodes_array, get_nods_nbr(argv[1]), fst_id);
+    Node* end_node = get_node_by_id(nodes_array, get_nods_nbr(argv[1]), end_id);
 
     if(no_valid_path_error(fst_node)){
         return NO_VALID_PATH;
@@ -22,6 +25,8 @@ int main(int argc, char* argv[])
     display_node_start(argv[1]);
     display_node_end(argv[1]);
     
+    //path_finder(end_node);
+
     display_nodes(fst_node);
 
     printf("FIN DU PROGRAME : :)");

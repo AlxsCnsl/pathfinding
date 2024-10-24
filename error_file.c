@@ -120,5 +120,3 @@ Error bad_file_format_error(FILE* file){
     display_file_error(BAD_FILE_FORMAT);
     return 1;
 }
-
-
