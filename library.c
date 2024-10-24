@@ -1,26 +1,26 @@
 #include "library.h"
 
-void display_nods_nbr(char *filename) //affiche le nombre de noeuds
+void display_nods_nbr(char *filename) //Affiche le nombre de noeuds
 {
     printf("nombre de noeud(s): %d\n", get_nods_nbr(filename));
 }
 
-void display_links_nbr(char *filename) //affiche le nombre de liens
+void display_links_nbr(char *filename) //Affiche le nombre de liens
 {   
     printf("Nombre de lien(s): %d\n", get_links_nbr(filename));
 }
 
-void display_node_start(char *filename) //affiche le noeud de depart
+void display_node_start(char *filename) //Affiche le noeud de départ
 {
     printf("start: %d\n", get_node_start(filename));
 }
 
-void display_node_end(char *filename) //affiche le noeud de fin
+void display_node_end(char *filename) //Affiche le noeud de fin
 {
     printf("end: %d\n", get_node_end(filename));
 }
 
-int str_debuts_str(char* str1, char* str2) //verifie si str1 est dans str2() (pour le cross OS)
+int str_debuts_str(char* str1, char* str2) //Vérifie si str1 est dans str2() (pour le cross OS)
 {
     int i;
     for(i = 0; i<strlen(str1); i++)
@@ -33,7 +33,7 @@ int str_debuts_str(char* str1, char* str2) //verifie si str1 est dans str2() (po
     return 0;
 }
 
-int get_nods_nbr(char *filename) //get le nombre de nodes
+int get_nods_nbr(char *filename) //Return le nombre de nodes
 {
     FILE* file = fopen(filename, "r");
     char buffer[256];
@@ -50,7 +50,7 @@ int get_nods_nbr(char *filename) //get le nombre de nodes
     return nods_nbr;
 }
 
-int get_links_nbr(char *filename) // get le nombre de liens
+int get_links_nbr(char *filename) //Return le nombre de liens
 {
     FILE* file = fopen(filename, "r");
     char buffer[256];
@@ -64,7 +64,7 @@ int get_links_nbr(char *filename) // get le nombre de liens
     return links_nbr;
 }
 
-int get_node_start(char *filename) // get le node de depart
+int get_node_start(char *filename) //Return l'ID du node de depart
 {
     FILE* file = fopen(filename, "r");
     char buffer[256];
@@ -75,7 +75,7 @@ int get_node_start(char *filename) // get le node de depart
     return atoi(buffer);//transforme le char buffer en int 
 }
 
-int get_node_end(char *filename)// get le node de fin
+int get_node_end(char *filename)//Return l'ID du node de fin
 {
     FILE* file = fopen(filename, "r");
     char buffer[256];
@@ -86,7 +86,7 @@ int get_node_end(char *filename)// get le node de fin
     return atoi(buffer);//transforme le char buffer en int 
 }
 
-int get_node_id_by_index(char *filename, int index)  // retourne l'id en fonction de ca position dans le fichier
+int get_node_id_by_index(char *filename, int index)  //Retourne l'id en fonction de sa position dans le fichier
 {
     FILE* file = fopen(filename, "r");
     char buffer[256];
@@ -105,7 +105,7 @@ int get_node_id_by_index(char *filename, int index)  // retourne l'id en fonctio
     return 0;
 }
 
-int get_links_nbr_by_id(int id, char* filename) //retourne le nombre de lien qu'à un node
+int get_links_nbr_by_id(int id, char* filename) //Return le nombre de liens d'un node
 {
     FILE *file = fopen(filename, "r");
     char buffer[256];
@@ -128,7 +128,7 @@ int get_links_nbr_by_id(int id, char* filename) //retourne le nombre de lien qu'
     return return_value;
 }
 
-int get_oposit_id_in_file(int id, char* filename, int rank)//ex: si id = 1 & rank =2 et que fille =  1-2\n1-3 on a return 3
+int get_oposit_id_in_file(int id, char* filename, int rank)//ex: si id = 1 & rank =2 et que file =  1-2\n1-3 on a return 3
 {                                                                                       //car c'est le 2e fois qu'on vois 1
     FILE *file = fopen(filename, "r");
     char buffer[256];
@@ -140,7 +140,7 @@ int get_oposit_id_in_file(int id, char* filename, int rank)//ex: si id = 1 & ran
         if(fgets(buffer, sizeof(buffer), file)!= NULL && //if//    on incremente le curseur de file et on aplique la ligne a bufer buffer 
         sscanf(buffer, "%d-%d", &left_id, &right_id) == 2) //if/   et on change les valeurs de  left_id et right_id
         {
-            if((left_id==id && right_id!=id)||(left_id!=id && right_id==id)) //un if pour regarder si il y à id dans l'in des 2 coté 
+            if((left_id==id && right_id!=id)||(left_id!=id && right_id==id)) //un if pour regarder s'il y a id dans l'un des 2 cotés
             {        
                 if(rank_lvl == rank)
                 {
@@ -158,7 +158,7 @@ int get_oposit_id_in_file(int id, char* filename, int rank)//ex: si id = 1 & ran
     return 0;
 }
 
-void init_links_node(Node** tab_nodes, Node* node, char* filename) // initie les liens d'un Node
+void init_links_node(Node** tab_nodes, Node* node, char* filename) //Initie les liens d'un Node
 {
     int i, id, size = get_links_nbr_by_id(node->id, filename);
     node->links = (Node**)malloc(size*sizeof(Node**));
@@ -169,7 +169,7 @@ void init_links_node(Node** tab_nodes, Node* node, char* filename) // initie les
     }
 }
 
-void init_links_node_by_node(Node** tab_nodes, char* filename )//initie tout les liens de tout les noeuds
+void init_links_node_by_node(Node** tab_nodes, char* filename )//Initie tous les liens de tous les noeuds
 {
     int i, nodes_nbr = get_nods_nbr(filename);
     for(i=0;i<nodes_nbr;i++)
@@ -178,7 +178,7 @@ void init_links_node_by_node(Node** tab_nodes, char* filename )//initie tout les
     }
 }
 
-Node** init_node( char *filename )// initie les noeud et les lien 
+Node** init_node( char *filename )//Initie les noeuds et leurs liens 
 {
     int i, nodes_nbr = get_nods_nbr(filename);
     Node** n_tab = (Node**)malloc(nodes_nbr * sizeof(Node*));
@@ -195,7 +195,7 @@ Node** init_node( char *filename )// initie les noeud et les lien
     return n_tab;
 }
 
-void give_role(Node* node,char* filename)// donne le role type START END || NEUTRAL
+void give_role(Node* node, char* filename)//Donne le rôle type START END || NEUTRAL
 {
     if(node->id == get_node_start(filename))
     {
@@ -213,7 +213,7 @@ void give_role(Node* node,char* filename)// donne le role type START END || NEUT
     }
 }
 
-Node* get_node_by_id(Node **nodes, int size, int id) //recup un node grace à un id
+Node* get_node_by_id(Node **nodes, int size, int id) //Return un node grace à un ID
 {
     int i;
     for(i=0; i<size; i++)
@@ -441,8 +441,8 @@ void path_finder(Node* end, Node* start)
     while(enqueue_links_new_gen(queue, &new_gen_index)){}
     printf("++++==== step str %d// step end %d\n", start->step, end->step);
     display_path_finder(start);
-    unmark_queue(queue);
-    free(queue);
+    //unmark_queue(queue);
+    //free(queue);
 }
 
 void display_path_finder(Node* start)
@@ -478,13 +478,14 @@ Node** get_unconnected_nodes( Node **nodes,int size ,Node *head)
         if(nodes[i]->mark == false)
         {
             return_nodes[tab_index] = nodes[i];
+            printf("Noeud non connecté : %d\n", return_nodes[tab_index]->id);
             tab_index ++;
         }
     }
     return return_nodes;
 }
 
-// n'est pas dans get_file_error pour ça complexité.
+//N'est pas dans get_file_error pour sa complexité
 int no_valid_path_error(Node* start) 
 {
     int new_gen_index = 0;
