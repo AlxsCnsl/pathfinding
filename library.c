@@ -188,7 +188,7 @@ Node** init_node( char *filename )//Initie les noeuds et leurs liens
         n_tab[i]->id = get_node_id_by_index(filename, i);
         n_tab[i]->step = 0;
         n_tab[i]->links_size = get_links_nbr_by_id(n_tab[i]->id, filename);
-        n_tab[i]->mark = false;
+        n_tab[i]->mark = FALSE;
         give_role(n_tab[i], filename);
     }
     init_links_node_by_node(n_tab, filename);
@@ -226,11 +226,7 @@ Node* get_node_by_id(Node **nodes, int size, int id) //Return un node grace à u
     return NULL;
 }
 
-
-//les fonction à testé=================================================================================================les fonction à testé//
-
-
-void display_nodes(Node* start) // Affiche les noeud conecté à un node
+void display_nodes(Node* start) // Affiche les noeuds connectés au Node de Start
 {
     int new_gen_index = 0;
     Queue* queue= init_queue(100000);//grande taille pour la securité;
@@ -242,37 +238,38 @@ void display_nodes(Node* start) // Affiche les noeud conecté à un node
     free(queue);
 }
 
-bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)//ajoute les noeud conecté et non marqué des noeud de la queue de l'index new_gen à size de la queue.
+bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)//Ajoute les noeuds connectés et non-marqués des noeuds de la queue de l'index new_gen à size de la queue.
 {
     queue->step_index ++;
     int i, next_gen_index = queue->size;
-    bool return_value = false;
+    bool return_value = FALSE;
     for(i= *new_gen_index; i<next_gen_index; i++)
     {
         if(enqueue_links_node(queue, queue->items[i]))
         {
-            return_value = true;
+            return_value = TRUE;
         }
     }
     *new_gen_index = next_gen_index;
     return return_value;
 }
 
-bool enqueue_links_node(Queue* queue, Node* node)//ajoute les noeud conecter et non marqué d'un autre noeud, dans la file
+bool enqueue_links_node(Queue* queue, Node* node)//Ajoute les noeuds connectés et non-marqués d'un autre noeud, dans la file
 {
     int i;
-    bool return_value = false;
+    bool return_value = FALSE;
     for(i=0; i< node->links_size; i++)
     {
-        if(is_marked(node->links[i])==false){
+        if(is_marked(node->links[i])==FALSE){
             enqueue(queue, node->links[i]);
-            return_value = true;
+            return_value = TRUE;
         }
     }
     return return_value;//ici le bool de retourn nous permet de dire si il y a eu un ajout dans la file
 }
 
-Queue* init_queue(int capacity){
+Queue* init_queue(int capacity)//Initie la queuezzzz
+{
     int i;
     Queue* queue = malloc(sizeof(Queue));
     queue->items = NULL;
@@ -288,19 +285,19 @@ Queue* init_queue(int capacity){
     return queue;
 }
 
-bool is_ampty_queue(Queue* queue) //Regarde si la queue est vide
+bool is_empty_queue(Queue* queue) //Regarde si la queue est vide
 {
     if((queue->first_elem == NULL && queue->last_elem== NULL) ||queue->size==0)
     {
-        return true;
+        return TRUE;
     }
-    return false;
+    return FALSE;
 }
 
 void display_queue(Queue* queue) //Affiche la queue.
 {
     int i;
-    if(is_ampty_queue(queue))
+    if(is_empty_queue(queue))
     {
         printf("La file est vidde\n");
         return;
@@ -312,7 +309,7 @@ void display_queue(Queue* queue) //Affiche la queue.
     printf("\n");
 }
 
-void display_one_node(Node* node)//Afiche un noeud.
+void display_one_node(Node* node)//Affiche un noeud.
 {
     if(node == NULL)
     {
@@ -337,10 +334,10 @@ void enqueue(Queue* queue, Node* node)//Ajoute un noeud à la queue
     }
 }
 
-void dequeue(Queue* queue)//Retire le premier elelement de la queue.
+void dequeue(Queue* queue)//Retire le premier élément de la queue.
 {
     int i;
-    if(is_ampty_queue(queue))
+    if(is_empty_queue(queue))
     {
         printf("La file est deja vide, rien à retiré\n");
         return;
@@ -352,26 +349,25 @@ void dequeue(Queue* queue)//Retire le premier elelement de la queue.
     }
 }
 
-
 void mark_node(Node* node) //Marque un Noeud s'il n'est pas déjà marqué.
 {
-    if(node->mark == false)
+    if(node->mark == FALSE)
     {
-        node->mark = true;
+        node->mark = TRUE;
     }
 }
 
 void unmark_node(Node* node) //Retire la marque d'un noeud.
 {
-    if(node->mark == true)
+    if(node->mark == TRUE)
     {
-        node->mark = false;
+        node->mark = FALSE;
         node->step = 0;
         printf("on demark <%d>\n",node->id);
     }
 }
 
-void unmark_queue(Queue* queue) //Retire les marque de tout les noeud marqué d'une queue.
+void unmark_queue(Queue* queue) //Retire les marques de tous les noeuds marqués d'une queue.
 {
     int i;
     int size = queue->size;;
@@ -381,13 +377,13 @@ void unmark_queue(Queue* queue) //Retire les marque de tout les noeud marqué d'
     }
 }
 
-bool is_marked(Node* node) //Regarde si le noeud est dans la queue.
+bool is_marked(Node* node) //Regarde si un noeud est marqué
 {
-    if(node->mark == true)
+    if(node->mark == TRUE)
     {
-        return true;
+        return TRUE;
     }
-    return false;
+    return FALSE;
 }
 
 bool end_is_in_queue(Queue* queue)//Regarde si le noeud end est dans le queue.
@@ -397,10 +393,10 @@ bool end_is_in_queue(Queue* queue)//Regarde si le noeud end est dans le queue.
     {
         if(queue->items[i]->role == END)
         {   
-            return true;
+            return TRUE;
         }
     }
-    return false;
+    return FALSE;
 }
 
 bool start_is_in_queue(Queue* queue)//Regarde si le noeud start est dans la queue.
@@ -410,14 +406,13 @@ bool start_is_in_queue(Queue* queue)//Regarde si le noeud start est dans la queu
     {
         if(queue->items[i]->role == START)
         {
-            return true;
+            return TRUE;
         }
     }
-    return false;
+    return FALSE;
 }
 
-
-void path_finder(Node* end, Node* start) // le chemin le plus cour d'un start à un end.
+void path_finder(Node* end, Node* start) //Le chemin le plus court d'un start à un end.
 {
     int new_gen_index = 0;
     Queue* queue= init_queue(100000);//grande taille pour la securité.
@@ -428,7 +423,7 @@ void path_finder(Node* end, Node* start) // le chemin le plus cour d'un start à
     free(queue);
 }
 
-void display_path_finder(Node* start) // affiche le chemin le plus cour d'un start à un end 
+void display_path_finder(Node* start) //Affiche le chemin le plus court d'un start à un end 
 {
     Node* activ_node = start;
     int i, activ_step = activ_node->step;
@@ -452,13 +447,13 @@ void display_path_finder(Node* start) // affiche le chemin le plus cour d'un sta
     printf("%d\n", activ_node->id);
 }
 
-Node** get_unconnected_nodes( Node **nodes,int size ,Node *head)//Get les noeud non conecté
+Node** get_unconnected_nodes( Node **nodes,int size ,Node *head)//Get les noeuds non-connectés au Node de Start
 {
     Node** return_nodes = (Node**)malloc(size*sizeof(Node*));
     int i, tab_index = 0;
     for(i = 0; i<size; i++)
     {
-        if(nodes[i]->mark == false)
+        if(nodes[i]->mark == FALSE)
         {
             return_nodes[tab_index] = nodes[i];
             printf("Noeud non connecté : %d\n", return_nodes[tab_index]->id);
@@ -468,8 +463,7 @@ Node** get_unconnected_nodes( Node **nodes,int size ,Node *head)//Get les noeud 
     return return_nodes;
 }
 
-//N'est pas dans get_file_error pour sa complexité
-int no_valid_path_error(Node* start) 
+int no_valid_path_error(Node* start) //Erreur si Node de Start pas connecté au Node de End
 {
     int new_gen_index = 0;
     Queue* queue= init_queue(100000);//grande taille pour la securité;
