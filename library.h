@@ -6,9 +6,9 @@
 #include <string.h>
 #include "error_file.h"
 
-typedef enum{ //un boulean car c'est pratique
-    false,
-    true
+typedef enum{ //Un booléen car c'est pratique
+    FALSE,
+    TRUE
 } bool;
 
 typedef enum {
@@ -63,7 +63,7 @@ void display_nodes(Node* start);
 
 Queue* init_queue(int capacity);
 
-bool is_ampty_queue(Queue* queue);
+bool is_empty_queue(Queue* queue);
 Node* get_first_elem_queue(Queue* queue);
 Node* get_last_elem_queue(Queue* queue);
 
