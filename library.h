@@ -10,6 +10,7 @@ typedef enum{ //Un booléen car c'est pratique
     FALSE,
     TRUE
 } bool;
+} BOOL;
 
 typedef enum {
     START,
