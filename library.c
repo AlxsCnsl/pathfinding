@@ -230,19 +230,19 @@ Node* get_node_by_id(Node **nodes, int size, int id) //Return un node grace à u
 //les fonction à testé=================================================================================================les fonction à testé//
 
 
-void display_nodes(Node* start)
+void display_nodes(Node* start) // Affiche les noeud conecté à un node
 {
     int new_gen_index = 0;
     Queue* queue= init_queue(100000);//grande taille pour la securité;
     enqueue(queue, start);
-    while(enqueue_links_new_gen(queue, &new_gen_index)){}
+    while(enqueue_links_new_gen(queue, &new_gen_index)){}//tourne tent qu'il y à encore des noeud non marqué conécté même aux plus loins du main
     display_queue(queue);
     printf("queue size = %d\n", queue->size );
     unmark_queue(queue);
     free(queue);
 }
 
-bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)
+bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)//ajoute les noeud conecté et non marqué des noeud de la queue de l'index new_gen à size de la queue.
 {
     queue->step_index ++;
     int i, next_gen_index = queue->size;
@@ -441,8 +441,8 @@ void path_finder(Node* end, Node* start)
     while(enqueue_links_new_gen(queue, &new_gen_index)){}
     printf("++++==== step str %d// step end %d\n", start->step, end->step);
     display_path_finder(start);
-    //unmark_queue(queue);
-    //free(queue);
+    unmark_queue(queue);
+    free(queue);
 }
 
 void display_path_finder(Node* start)
