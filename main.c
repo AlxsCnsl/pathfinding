@@ -26,15 +26,11 @@ int main(int argc, char* argv[])
     display_node_start(argv[1]);
     display_node_end(argv[1]);
     
-
-    printf("==================DISPLAY_NOD====================\n");
     path_finder(end_node, fst_node);
 
-    printf("==================GET UNCONNECTED NODS====================\n");
     get_unconnected_nodes(nodes_array, size, fst_node);
 
     //display_nodes(fst_node);
-
-    printf("FIN DU PROGRAME : :)\n");
+    
     return 0;
 }

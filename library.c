@@ -324,13 +324,11 @@ void display_one_node(Node* node)//Afiche un noeud.
 
 void enqueue(Queue* queue, Node* node)//Ajoute un noeud à la queue
 {   
-    printf("AH bah on passe dans le enqueue et on mark <%d>, ~%d~\n",node->id ,node->role);
     mark_node(node);
     node->step = queue->step_index;
     queue->items[queue->size] = node;
     queue->size ++;
     queue->last_elem = node;
-    printf("on est aux step %d pour <%d>\n", node->step, node->id);
     if(queue->size==1)
     {
         queue->first_elem = node;
@@ -367,7 +365,6 @@ void unmark_node(Node* node) //Retire la marque d'un noeud.
     {
         node->mark = false;
         node->step = 0;
-        printf("on demark <%d>\n",node->id);
     }
 }
 
@@ -423,7 +420,6 @@ void path_finder(Node* end, Node* start) // le chemin le plus cour d'un start à
     Queue* queue= init_queue(100000);//grande taille pour la securité.
     enqueue(queue, end);//On commence du end
     while(enqueue_links_new_gen(queue, &new_gen_index)){}//tourne tent qu'il y à encore des noeud non marqué conécté même aux plus loins du main
-    printf("++++==== step str %d// step end %d\n", start->step, end->step);
     display_path_finder(start);
     free(queue);
 }
@@ -434,6 +430,7 @@ void display_path_finder(Node* start) // affiche le chemin le plus cour d'un sta
     int i, activ_step = activ_node->step;
     Node* test_node = NULL;
     int test_step;
+    printf("pathfinding:\n");
     do
     {
         activ_step = activ_node->step;
@@ -461,14 +458,14 @@ Node** get_unconnected_nodes( Node **nodes,int size ,Node *head)//Get les noeud 
         if(nodes[i]->mark == false)
         {
             return_nodes[tab_index] = nodes[i];
-            printf("Noeud non connecté : %d\n", return_nodes[tab_index]->id);
+            //printf("Noeud non connecté : %d\n", return_nodes[tab_index]->id);
             tab_index ++;
         }
     }
     return return_nodes;
 }
 
-//N'est pas dans get_file_error pour sa complexité
+
 int no_valid_path_error(Node* start) 
 {
     int new_gen_index = 0;
