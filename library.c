@@ -238,11 +238,11 @@ void display_nodes(Node* start) // Affiche les noeuds connectés au Node de Star
     free(queue);
 }
 
-bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)//Ajoute les noeuds connectés et non-marqués des noeuds de la queue de l'index new_gen à size de la queue.
+Bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)//Ajoute les noeuds connectés et non-marqués des noeuds de la queue de l'index new_gen à size de la queue.
 {
     queue->step_index ++;
     int i, next_gen_index = queue->size;
-    bool return_value = FALSE;
+    Bool return_value = FALSE;
     for(i= *new_gen_index; i<next_gen_index; i++)
     {
         if(enqueue_links_node(queue, queue->items[i]))
@@ -254,10 +254,10 @@ bool enqueue_links_new_gen(Queue* queue, int *new_gen_index)//Ajoute les noeuds 
     return return_value;
 }
 
-bool enqueue_links_node(Queue* queue, Node* node)//Ajoute les noeuds connectés et non-marqués d'un autre noeud, dans la file
+Bool enqueue_links_node(Queue* queue, Node* node)//Ajoute les noeuds connectés et non-marqués d'un autre noeud, dans la file
 {
     int i;
-    bool return_value = FALSE;
+    Bool return_value = FALSE;
     for(i=0; i< node->links_size; i++)
     {
         if(is_marked(node->links[i])==FALSE){
@@ -265,10 +265,10 @@ bool enqueue_links_node(Queue* queue, Node* node)//Ajoute les noeuds connectés 
             return_value = TRUE;
         }
     }
-    return return_value;//ici le bool de retourn nous permet de dire si il y a eu un ajout dans la file
+    return return_value;//ici le Bool de retourn nous permet de dire si il y a eu un ajout dans la file
 }
 
-Queue* init_queue(int capacity)//Initie la queuezzzz
+Queue* init_queue(int capacity)//Initie la queue
 {
     int i;
     Queue* queue = malloc(sizeof(Queue));
@@ -285,7 +285,7 @@ Queue* init_queue(int capacity)//Initie la queuezzzz
     return queue;
 }
 
-bool is_empty_queue(Queue* queue) //Regarde si la queue est vide
+Bool is_empty_queue(Queue* queue) //Regarde si la queue est vide
 {
     if((queue->first_elem == NULL && queue->last_elem== NULL) ||queue->size==0)
     {
@@ -377,7 +377,7 @@ void unmark_queue(Queue* queue) //Retire les marques de tous les noeuds marqués
     }
 }
 
-bool is_marked(Node* node) //Regarde si un noeud est marqué
+Bool is_marked(Node* node) //Regarde si un noeud est marqué
 {
     if(node->mark == TRUE)
     {
@@ -386,7 +386,7 @@ bool is_marked(Node* node) //Regarde si un noeud est marqué
     return FALSE;
 }
 
-bool end_is_in_queue(Queue* queue)//Regarde si le noeud end est dans le queue.
+Bool end_is_in_queue(Queue* queue)//Regarde si le noeud end est dans le queue.
 {
     int i;
     for(i=0; i<queue->size; i++)
@@ -399,7 +399,7 @@ bool end_is_in_queue(Queue* queue)//Regarde si le noeud end est dans le queue.
     return FALSE;
 }
 
-bool start_is_in_queue(Queue* queue)//Regarde si le noeud start est dans la queue.
+Bool start_is_in_queue(Queue* queue)//Regarde si le noeud start est dans la queue.
 {
     int i;
     for(i=0; i<queue->size; i++)
