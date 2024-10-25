@@ -341,7 +341,7 @@ void display_one_node(Node* node)
 
 void enqueue(Queue* queue, Node* node)
 {   
-    printf("AH bah on passe dans le anqueue et on mark <%d>, ~%d~\n",node->id ,node->role);
+    printf("AH bah on passe dans le enqueue et on mark <%d>, ~%d~\n",node->id ,node->role);
     mark_node(node);
     node->step = queue->step_index;
     queue->items[queue->size] = node;
@@ -369,7 +369,7 @@ void dequeue(Queue* queue)
 }
 
 
-void mark_node(Node* node)
+void mark_node(Node* node) //Marque un Noeud s'il n'est pas déjà marqué
 {
     if(node->mark == false)
     {
@@ -441,7 +441,10 @@ void path_finder(Node* end, Node* start)
     while(enqueue_links_new_gen(queue, &new_gen_index)){}
     printf("++++==== step str %d// step end %d\n", start->step, end->step);
     display_path_finder(start);
+<<<<<<< HEAD
     unmark_queue(queue);
+=======
+>>>>>>> 3d348583cf98a3d9f53049be862eaa9fab374c5e
     free(queue);
 }
 
@@ -502,4 +505,3 @@ int no_valid_path_error(Node* start)
     free(queue);
     return 0;
 }
-
