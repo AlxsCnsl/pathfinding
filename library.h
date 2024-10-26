@@ -9,8 +9,7 @@
 typedef enum{ //Un booléen car c'est pratique
     FALSE,
     TRUE
-} bool;
-} BOOL;
+} Bool;
 
 typedef enum {
     START,
@@ -24,7 +23,7 @@ typedef struct n{
     struct n **links;
     int links_size;
     int step;
-    bool mark;
+    Bool mark;
 } Node;
 
 typedef struct {
@@ -64,7 +63,7 @@ void display_nodes(Node* start);
 
 Queue* init_queue(int capacity);
 
-bool is_empty_queue(Queue* queue);
+Bool is_empty_queue(Queue* queue);
 Node* get_first_elem_queue(Queue* queue);
 Node* get_last_elem_queue(Queue* queue);
 
@@ -72,17 +71,17 @@ void display_queue(Queue* queue);
 void display_one_node(Node* node);
 
 void enqueue(Queue* queue, Node* node);
-bool enqueue_links_node(Queue* queue, Node* node);
-bool enqueue_links_new_gen(Queue* queue, int *new_gen_index);
+Bool enqueue_links_node(Queue* queue, Node* node);
+Bool enqueue_links_new_gen(Queue* queue, int *new_gen_index);
 void dequeue(Queue* queue);
 
 void mark_node(Node* node);
 void unmark_node(Node* node);
 void unmark_queue(Queue* queue);
-bool is_marked(Node* node);
+Bool is_marked(Node* node);
 
-bool end_is_in_queue(Queue* queue);
-bool start_is_in_queue(Queue* queue);
+Bool end_is_in_queue(Queue* queue);
+Bool start_is_in_queue(Queue* queue);
 
 void path_finder(Node* end, Node* start);
 void display_path_finder(Node* start);

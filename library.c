@@ -199,12 +199,10 @@ void give_role(Node* node, char* filename)//Donne le rôle type START END || NEU
 {
     if(node->id == get_node_start(filename))
     {
-        printf("ON A NOTRE NOTRE START <%d>\n", node->id);
         node->role = START;
     }
     else if(node->id == get_node_end(filename))
     {
-        printf("ON A NOTRE END <%d>\n", node->id);
         node->role = END;
     }
     else
@@ -233,7 +231,6 @@ void display_nodes(Node* start) // Affiche les noeuds connectés au Node de Star
     enqueue(queue, start);
     while(enqueue_links_new_gen(queue, &new_gen_index)){}//tourne tent qu'il y à encore des noeud non marqué conécté même aux plus loins du main
     display_queue(queue);
-    printf("queue size = %d\n", queue->size );
     unmark_queue(queue);
     free(queue);
 }
@@ -299,7 +296,6 @@ void display_queue(Queue* queue) //Affiche la queue.
     int i;
     if(is_empty_queue(queue))
     {
-        printf("La file est vidde\n");
         return;
     }
     for(i=0; i< queue->size; i++)
@@ -313,7 +309,6 @@ void display_one_node(Node* node)//Affiche un noeud.
 {
     if(node == NULL)
     {
-        printf("Tu essais de printf un node qui n'existe pas\n");
         return;
     }
     printf("%d ",node->id);
@@ -321,13 +316,11 @@ void display_one_node(Node* node)//Affiche un noeud.
 
 void enqueue(Queue* queue, Node* node)//Ajoute un noeud à la queue
 {   
-    printf("AH bah on passe dans le enqueue et on mark <%d>, ~%d~\n",node->id ,node->role);
     mark_node(node);
     node->step = queue->step_index;
     queue->items[queue->size] = node;
     queue->size ++;
     queue->last_elem = node;
-    printf("on est aux step %d pour <%d>\n", node->step, node->id);
     if(queue->size==1)
     {
         queue->first_elem = node;
@@ -339,7 +332,6 @@ void dequeue(Queue* queue)//Retire le premier élément de la queue.
     int i;
     if(is_empty_queue(queue))
     {
-        printf("La file est deja vide, rien à retiré\n");
         return;
     }
     for(i = 0; i< queue->size; i++)
@@ -363,7 +355,6 @@ void unmark_node(Node* node) //Retire la marque d'un noeud.
     {
         node->mark = FALSE;
         node->step = 0;
-        printf("on demark <%d>\n",node->id);
     }
 }
 
@@ -418,7 +409,6 @@ void path_finder(Node* end, Node* start) //Le chemin le plus court d'un start à
     Queue* queue= init_queue(100000);//grande taille pour la securité.
     enqueue(queue, end);//On commence du end
     while(enqueue_links_new_gen(queue, &new_gen_index)){}//tourne tent qu'il y à encore des noeud non marqué conécté même aux plus loins du main
-    printf("++++==== step str %d// step end %d\n", start->step, end->step);
     display_path_finder(start);
     free(queue);
 }
@@ -429,6 +419,7 @@ void display_path_finder(Node* start) //Affiche le chemin le plus court d'un sta
     int i, activ_step = activ_node->step;
     Node* test_node = NULL;
     int test_step;
+    printf("pathfinding:\n");
     do
     {
         activ_step = activ_node->step;
@@ -456,7 +447,7 @@ Node** get_unconnected_nodes( Node **nodes,int size ,Node *head)//Get les noeuds
         if(nodes[i]->mark == FALSE)
         {
             return_nodes[tab_index] = nodes[i];
-            printf("Noeud non connecté : %d\n", return_nodes[tab_index]->id);
+            //printf("Noeud non connecté : %d\n", return_nodes[tab_index]->id);
             tab_index ++;
         }
     }
